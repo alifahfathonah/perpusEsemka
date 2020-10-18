@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 17 Okt 2020 pada 04.53
--- Versi server: 10.4.10-MariaDB
--- Versi PHP: 7.3.12
+-- Host: 127.0.0.1
+-- Generation Time: Oct 18, 2020 at 09:46 AM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.3.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `lspperpus`
+-- Database: `webperpus`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `buku`
+-- Table structure for table `buku`
 --
 
 CREATE TABLE `buku` (
@@ -34,20 +34,20 @@ CREATE TABLE `buku` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `buku`
+-- Dumping data for table `buku`
 --
 
 INSERT INTO `buku` (`id`, `judul`) VALUES
-(1, 'buku 1'),
-(2, 'buku 2'),
-(5, 'buku 5'),
-(6, 'buku 6'),
-(7, 'buku 7');
+(9, 'Mimpi Kita'),
+(10, 'Dongeng Kancil'),
+(11, 'Perbedaan Kasta'),
+(12, 'Merenung di Langit Cina'),
+(13, 'Alam Kubur');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `peminjaman`
+-- Table structure for table `peminjaman`
 --
 
 CREATE TABLE `peminjaman` (
@@ -56,27 +56,23 @@ CREATE TABLE `peminjaman` (
   `pengguna` int(11) NOT NULL,
   `pinjam` datetime NOT NULL DEFAULT current_timestamp(),
   `kembali` datetime NOT NULL,
+  `tgl_kembali` datetime NOT NULL,
   `dikembalikan` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `peminjaman`
+-- Dumping data for table `peminjaman`
 --
 
-INSERT INTO `peminjaman` (`id`, `buku`, `pengguna`, `pinjam`, `kembali`, `dikembalikan`) VALUES
-(3, 1, 1, '2020-10-16 00:00:00', '2020-10-17 00:00:00', 1),
-(4, 2, 2, '2020-10-16 00:00:00', '2020-10-17 00:00:00', 1),
-(6, 1, 2, '2020-10-17 00:00:00', '2020-10-18 00:00:00', 0),
-(7, 5, 2, '2020-10-17 04:00:08', '2020-10-24 04:00:08', 1),
-(8, 5, 1, '2020-10-17 04:01:10', '2020-10-24 04:01:10', 1),
-(9, 2, 4, '2020-10-17 04:35:37', '2020-10-24 04:35:37', 1),
-(10, 6, 5, '2020-10-17 04:53:17', '2020-10-24 04:53:17', 1),
-(11, 5, 5, '2020-10-17 04:53:21', '2020-10-24 04:53:21', 0);
+INSERT INTO `peminjaman` (`id`, `buku`, `pengguna`, `pinjam`, `kembali`, `tgl_kembali`, `dikembalikan`) VALUES
+(18, 9, 2, '2020-10-18 05:29:49', '2020-10-25 05:29:49', '2020-10-18 05:36:21', 1),
+(19, 11, 2, '2020-10-18 05:37:41', '2020-10-25 05:37:41', '0000-00-00 00:00:00', 0),
+(20, 10, 2, '2020-10-18 09:32:29', '2020-10-25 09:32:29', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengguna`
+-- Table structure for table `pengguna`
 --
 
 CREATE TABLE `pengguna` (
@@ -86,7 +82,7 @@ CREATE TABLE `pengguna` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `pengguna`
+-- Dumping data for table `pengguna`
 --
 
 INSERT INTO `pengguna` (`id`, `username`, `password`) VALUES
@@ -102,44 +98,57 @@ INSERT INTO `pengguna` (`id`, `username`, `password`) VALUES
 --
 
 --
--- Indeks untuk tabel `buku`
+-- Indexes for table `buku`
 --
 ALTER TABLE `buku`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `peminjaman`
+-- Indexes for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pengguna` (`pengguna`),
+  ADD KEY `buku` (`buku`);
 
 --
--- Indeks untuk tabel `pengguna`
+-- Indexes for table `pengguna`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `buku`
+-- AUTO_INCREMENT for table `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT untuk tabel `peminjaman`
+-- AUTO_INCREMENT for table `peminjaman`
 --
 ALTER TABLE `peminjaman`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT untuk tabel `pengguna`
+-- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `peminjaman`
+--
+ALTER TABLE `peminjaman`
+  ADD CONSTRAINT `peminjaman_ibfk_1` FOREIGN KEY (`pengguna`) REFERENCES `pengguna` (`id`),
+  ADD CONSTRAINT `peminjaman_ibfk_2` FOREIGN KEY (`buku`) REFERENCES `buku` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
